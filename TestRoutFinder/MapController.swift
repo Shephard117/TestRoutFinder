@@ -21,21 +21,50 @@ class MapController: UIViewController {
     let adressButton: UIButton = {
        let button = UIButton()
         button.setTitle("Выбрать адрес", for: .normal)
+        button.setTitleColor(.red, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
+    let routeButton: UIButton = {
+       let button = UIButton()
+        button.setTitle("Проложить маршрут", for: .normal)
+        button.setTitleColor(.red, for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.isHidden = true
+        return button
+    }()
     
+    let resetButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("Очистить карту", for: .normal)
+        button.setTitleColor(.red, for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.isHidden = true
+        return button
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setConstrients()
+        adressButton.addTarget(self, action: #selector(adressPressed), for: .touchUpInside)
+        routeButton.addTarget(self, action: #selector(routePressed), for: .touchUpInside)
+        resetButton.addTarget(self, action: #selector((resetPressed)), for: .touchUpInside)
         
-        adressButton.addTarget(self, action: #selector(adressTapped), for: .touchUpInside)
     }
     
-    @objc func adressTapped() {
-        print("Adress tapped")
+    @objc func adressPressed() {
+        alertAdress(titile: "Добавить адресс", placeholder: "Введите адрес") { (text) in
+            print(text)
+        }
+    }
+    
+    @objc func routePressed() {
+        print("Route pressed")
+    }
+    
+    @objc func resetPressed() {
+        print("Reset pressed")
     }
 }
 
@@ -58,7 +87,23 @@ extension MapController {
             adressButton.topAnchor.constraint(equalTo: mapView.topAnchor, constant: 50),
             adressButton.trailingAnchor.constraint(equalTo: mapView.trailingAnchor, constant: -30),
             adressButton.heightAnchor.constraint(equalToConstant: 30),
-            adressButton.widthAnchor.constraint(equalToConstant: 100)
+            adressButton.widthAnchor.constraint(equalToConstant: 150)
+        ])
+        
+        mapView.addSubview(routeButton)
+        NSLayoutConstraint.activate([
+            routeButton.bottomAnchor.constraint(equalTo: mapView.bottomAnchor, constant: -50),
+            routeButton.leadingAnchor.constraint(equalTo: mapView.leadingAnchor, constant: 10),
+            routeButton.heightAnchor.constraint(equalToConstant: 30),
+            routeButton.widthAnchor.constraint(equalToConstant: 180)
+        ])
+        
+        mapView.addSubview(resetButton)
+        NSLayoutConstraint.activate([
+            resetButton.bottomAnchor.constraint(equalTo: mapView.bottomAnchor, constant: -50),
+            resetButton.trailingAnchor.constraint(equalTo: mapView.trailingAnchor, constant: -20),
+            resetButton.heightAnchor.constraint(equalToConstant: 30),
+            resetButton.widthAnchor.constraint(equalToConstant: 150)
         ])
     }
 }

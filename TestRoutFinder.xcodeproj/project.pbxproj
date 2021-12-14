@@ -13,6 +13,7 @@
 		ED631DAA276859E800968009 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ED631DA8276859E800968009 /* Main.storyboard */; };
 		ED631DAC276859EB00968009 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ED631DAB276859EB00968009 /* Assets.xcassets */; };
 		ED631DAF276859EB00968009 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ED631DAD276859EB00968009 /* LaunchScreen.storyboard */; };
+		ED631DB727687B5000968009 /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED631DB627687B5000968009 /* Alert.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		ED631DAB276859EB00968009 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		ED631DAE276859EB00968009 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		ED631DB0276859EB00968009 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		ED631DB627687B5000968009 /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,6 +61,7 @@
 				ED631DA2276859E800968009 /* AppDelegate.swift */,
 				ED631DA4276859E800968009 /* SceneDelegate.swift */,
 				ED631DA6276859E800968009 /* MapController.swift */,
+				ED631DB627687B5000968009 /* Alert.swift */,
 				ED631DA8276859E800968009 /* Main.storyboard */,
 				ED631DAB276859EB00968009 /* Assets.xcassets */,
 				ED631DAD276859EB00968009 /* LaunchScreen.storyboard */,
@@ -140,6 +143,7 @@
 			files = (
 				ED631DA7276859E800968009 /* MapController.swift in Sources */,
 				ED631DA3276859E800968009 /* AppDelegate.swift in Sources */,
+				ED631DB727687B5000968009 /* Alert.swift in Sources */,
 				ED631DA5276859E800968009 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
