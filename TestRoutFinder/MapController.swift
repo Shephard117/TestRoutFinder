@@ -44,6 +44,8 @@ class MapController: UIViewController {
         return button
     }()
     
+    var annotationsArray: [MKPointAnnotation] = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setConstrients()
@@ -55,7 +57,7 @@ class MapController: UIViewController {
     
     @objc func adressPressed() {
         alertAdress(titile: "Добавить адресс", placeholder: "Введите адрес") { (text) in
-            print(text)
+            self.setupPlacemark(with: text)
         }
     }
     
@@ -65,6 +67,66 @@ class MapController: UIViewController {
     
     @objc func resetPressed() {
         print("Reset pressed")
+    }
+    
+    private func setupPlacemark(with adress: String) {
+        
+        let geocoder = CLGeocoder()
+        geocoder.geocodeAddressString(adress) { [self] placemarks, error in
+            
+            if let error = error {
+                alerterror(title: "Error", message: error.localizedDescription)
+                return
+            }
+                
+            guard let placemarks = placemarks else { return }
+            let placemark = placemarks.first
+            
+            let annotaion = MKPointAnnotation()    //создаем аннотацию
+            annotaion.title = "\(adress)"
+                
+            guard let placemarkLocation = placemark?.location else { return }  //присваиваем координаты
+            annotaion.coordinate = placemarkLocation.coordinate
+            
+            self.annotationsArray.append(annotaion)         //добавляем в массив аннотации
+            
+            if annotationsArray.count > 2 {
+                routeButton.isHidden = false
+                resetButton.isHidden = false
+            }
+            
+            mapView.showAnnotations(annotationsArray, animated: true) //отображем аннотации на карте
+        }
+    }
+    
+    private func createRoute(from start: CLLocationCoordinate2D, to finish: CLLocationCoordinate2D) {
+        
+        let startLocation = MKPlacemark(coordinate: start)
+        let finishLocation = MKPlacemark(coordinate: finish)
+        
+        let request = MKDirections.Request()              // создаем запрос с указанием начальной и конечной точки
+        request.source = MKMapItem(placemark: startLocation)
+        request.destination = MKMapItem(placemark: finishLocation)
+        request.transportType = .walking
+        request.requestsAlternateRoutes = true
+        
+        let direction = MKDirections(request: request)
+        direction.calculate { [self] response, error in
+            
+            if let error = error {
+                alerterror(title: "Error", message: error.localizedDescription)
+                return
+            }
+            
+            guard let response = response else {
+                
+                alerterror(title: "Error", message: "Маршрут недоступен")
+                return
+                
+            }
+            
+            
+        }
     }
 }
 
