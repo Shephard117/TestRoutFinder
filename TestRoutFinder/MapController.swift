@@ -48,6 +48,7 @@ class MapController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        mapView.delegate = self
         setConstrients()
         adressButton.addTarget(self, action: #selector(adressPressed), for: .touchUpInside)
         routeButton.addTarget(self, action: #selector(routePressed), for: .touchUpInside)
@@ -62,11 +63,19 @@ class MapController: UIViewController {
     }
     
     @objc func routePressed() {
-        print("Route pressed")
+        for index in 0...annotationsArray.count - 2 {
+            createRoute(from: annotationsArray[index].coordinate, to: annotationsArray[index + 1].coordinate)
+        }
+        
+        mapView.showAnnotations(annotationsArray, animated: true)
     }
     
     @objc func resetPressed() {
-        print("Reset pressed")
+        mapView.removeOverlays(mapView.overlays)
+        mapView.removeAnnotations(mapView.annotations)
+        annotationsArray = []
+        routeButton.isHidden = true
+        resetButton.isHidden = true
     }
     
     private func setupPlacemark(with adress: String) {
@@ -125,12 +134,26 @@ class MapController: UIViewController {
                 
             }
             
+            var minRoute = response.routes[0]
+            for route in response.routes {
+                print(route.distance)
+                minRoute = (route.distance < minRoute.distance) ? route : minRoute
+            }
             
+            mapView.addOverlay(minRoute.polyline)
         }
     }
 }
 
-    
+
+extension MapController: MKMapViewDelegate {
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+        
+        let render = MKPolylineRenderer(overlay: overlay as! MKPolyline)
+        render.strokeColor = .green
+        return render
+    }
+}
 
 
 extension MapController {
