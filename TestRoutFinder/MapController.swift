@@ -49,11 +49,13 @@ class MapController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         mapView.delegate = self
-        setConstrients()
         adressButton.addTarget(self, action: #selector(adressPressed), for: .touchUpInside)
         routeButton.addTarget(self, action: #selector(routePressed), for: .touchUpInside)
         resetButton.addTarget(self, action: #selector((resetPressed)), for: .touchUpInside)
-        
+    }
+    
+    override func viewWillLayoutSubviews() {
+        setConstrients()
     }
     
     @objc func adressPressed() {
